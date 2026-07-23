@@ -73,10 +73,7 @@ everything else requires a valid session for the one email in `ADMIN_EMAIL`.
    Cloudflare, enable Email Routing on it, verify `NOTIFY_TO_EMAIL` as a
    destination address, then uncomment the `[[send_email]]` block in
    `wrangler.toml`. Enquiries save to D1 and appear in the Admin panel
-   regardless of whether this step is done — it only gates the
-   notification email.
-4. `npx wrangler deploy`.
-
+   regardless of whethe
 ### Phase 3 — real projects
 
 No extra setup — once Phase 2's D1 database exists, `/projects` works
@@ -85,14 +82,27 @@ time (title, category, location, cover + gallery images). This step is
 intentionally manual: nobody but you should decide what your real project
 titles, categories, and descriptions say.
 
-### Phase 4 — R2 + CDN activation (optional, unlocks image resizing)
+### Phase 4 — R2 + CDN activation (optional, unlocks free image resizing)
 
-Connect a custom domain to the `portfolio` R2 bucket as a Cloudflare
-zone, enable Image Resizing for that zone, then:
-- Update `PUBLIC_BASE_URL` in `wrangler.toml` to the new domain and
-  redeploy.
-- Flip `CDN_SUPPORTS_RESIZING = true` and set `CDN_CUSTOM_DOMAIN` in
-  `site/js/cdn.js`.
+Cloudflare's on-the-fly Image Transformations (`/cdn-cgi/image/...`) do
+the resize/WebP-conversion work for free, up to 5,000 unique transforms
+per month — no processing queue, no background worker, no image library.
+`site/js/cdn.js` already builds these URLs; it's inert until a custom
+domain exists.
+
+1. Connect a custom domain to the `portfolio` R2 bucket as a Cloudflare
+   zone (R2 → your bucket → Settings → Custom Domains).
+2. In that zone's dashboard, enable **Images → Transformations**.
+3. Update `PUBLIC_BASE_URL` in `wrangler.toml` to the new domain and
+   redeploy (`npx wrangler deploy`).
+4. In `site/js/config.js`, set `CDN_CUSTOM_DOMAIN` to that same domain,
+   and switch `LOCAL_BASE`/image URLs over to it once the real assets are
+   actually uploaded to R2 under it (not before — until then, images are
+   still served from the local `Portfolio/` folder, and pointing URLs at
+   a domain with nothing behind it would just break them).
+
+Past 5,000 transforms/month, Cloudflare bills $0.50 per additional 1,000 —
+for a single-photographer portfolio site this is very unlikely to be hit.
 
 ## Endpoints
 

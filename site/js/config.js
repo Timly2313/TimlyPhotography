@@ -10,6 +10,15 @@
 const LOCAL_BASE = "Portfolio";
 const R2_PUBLIC_BASE_URL = "https://pub-7f3f3cc2474a47dc972d50c172ecd83b.r2.dev";
 
+/* Custom domain connected to the R2 bucket as a Cloudflare zone, with
+   Image Transformations enabled (Cloudflare dashboard → Images →
+   Transformations — free for up to 5,000 unique transforms/month). Once
+   set, js/cdn.js builds /cdn-cgi/image/ resize URLs against this origin
+   instead of serving originals. Leave blank until that domain exists —
+   cdn.js treats an empty value as "resizing not available yet" and every
+   image URL just resolves to the original, same as before. */
+const CDN_CUSTOM_DOMAIN = "";
+
 // Worker endpoint is fine to ship publicly — it's just a URL. Admin-only
 // calls authenticate with a live Supabase session token instead of a
 // shared secret (see authedFetch() in js/admin.js).

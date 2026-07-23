@@ -1,19 +1,23 @@
 /* ─────────────────────────────────────────────────────────────────────────
    TIMLY PHOTOGRAPHY — CDN IMAGE DELIVERY
-   Builds size-variant URLs via Cloudflare Image Resizing (/cdn-cgi/image/)
-   on the CDN custom domain. Resizing only works for requests that pass
-   through a Cloudflare-proxied zone you control — it does NOT work on the
-   raw r2.dev subdomain or on local file paths. Until CDN_SUPPORTS_RESIZING
-   is turned on (i.e. a custom domain is connected to the bucket with
-   Image Resizing enabled in the dashboard), every size variant just
-   resolves to the original file — the pipeline stays fully wired, it
-   simply has nothing to resize yet.
+   Builds size-variant URLs via Cloudflare's on-the-fly Image Transformations
+   (/cdn-cgi/image/) — free for up to 5,000 unique transforms/month, no
+   upload-time processing queue or background worker required. Resizing
+   only works for requests that pass through a Cloudflare-proxied zone you
+   control (isCdnUrl() below) — it does NOT work on the raw r2.dev
+   subdomain or on local file paths. Until CDN_CUSTOM_DOMAIN in
+   js/config.js is filled in (i.e. a custom domain is connected to the
+   bucket with Image Transformations enabled in the dashboard), every size
+   variant just resolves to the original file — the pipeline stays fully
+   wired, it simply has nothing to resize yet.
 ───────────────────────────────────────────────────────────────────────── */
 
-/** Set true once a custom domain is connected to the bucket AND
- *  Image Resizing is enabled for that zone (Cloudflare dashboard →
- *  zone → Speed → Optimization → Image Resizing). */
-const CDN_SUPPORTS_RESIZING = false;
+/** The resize/WebP-conversion pipeline itself — free up to 5,000 unique
+ *  transforms/month via Cloudflare's Images → Transformations (see
+ *  worker/README.md Phase 4). Left on unconditionally: isCdnUrl() below
+ *  is what actually gates this, and it stays false (inert, original URLs
+ *  used as-is) until CDN_CUSTOM_DOMAIN in js/config.js is filled in. */
+const CDN_SUPPORTS_RESIZING = true;
 
 /** @typedef {"thumbnail"|"medium"|"large"|"original"} ImageSize */
 
