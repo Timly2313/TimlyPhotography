@@ -28,24 +28,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorEl = document.getElementById("contact-error");
   const submitBtn = document.getElementById("enquiry-submit");
 
-  let widgetId = null;
-  const renderTurnstile = () => {
-    if (typeof turnstile === "undefined") { setTimeout(renderTurnstile, 100); return; }
-    widgetId = turnstile.render("#turnstile-widget", { sitekey: TURNSTILE_SITE_KEY });
-  };
-  renderTurnstile();
-
   form.addEventListener("submit", async e => {
     e.preventDefault();
     errorEl.classList.add("hidden");
-
-    const turnstileToken = typeof turnstile !== "undefined" && widgetId !== null ? turnstile.getResponse(widgetId) : "";
-    if (!turnstileToken) {
-      errorEl.textContent = "Please complete the verification check.";
-      errorEl.classList.remove("hidden");
-      return;
-    }
-
     submitBtn.disabled = true;
     submitBtn.textContent = "SENDING…";
     try {
@@ -59,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
           location: document.getElementById("f-location").value.trim(),
           type: document.getElementById("f-type").value,
           message: document.getElementById("f-message").value.trim(),
-          turnstileToken,
         }),
       });
       if (!res.ok) {
@@ -71,7 +55,6 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (err) {
       errorEl.textContent = err.message || "Something went wrong — please try again.";
       errorEl.classList.remove("hidden");
-      if (typeof turnstile !== "undefined" && widgetId !== null) turnstile.reset(widgetId);
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "SEND ENQUIRY";

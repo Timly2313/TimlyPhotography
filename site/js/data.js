@@ -15,7 +15,7 @@ const IMGS = {
   about:      PHOTOGRAPHER_IMAGE,
 };
 
-const CATS = ["ALL", "WEDDINGS", "PORTRAITS", "EDITORIAL", "ELOPEMENTS", "FASHION"];
+const CATS = ["ALL", "WEDDINGS", "PORTRAITS", "EDITORIAL", "ELOPEMENTS", "FASHION", "GRADUATIONS"];
 
 const FAQS = [
   { q: "How far in advance should I book?",   a: "For weddings, 12–18 months in advance. Portrait sessions are available 4–6 weeks ahead. Editorial projects vary — reach out to discuss your timeline." },

@@ -45,9 +45,3 @@ const PHOTOGRAPHER_IMAGE = `${LOCAL_BASE}/Photographer.jpg`;
    (a clear error, not a crash) until they're set. */
 const SUPABASE_URL = "https://zoooiopclnbbuxesqwnq.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpvb29pb3BjbG5iYnV4ZXNxd25xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3ODkxMjQsImV4cCI6MjEwMDM2NTEyNH0.2HaLY5I2bTC9tufHCGcFOIKBJ4BGEJRs9uuvSQ1jWa4";
-
-/* Cloudflare Turnstile site key for the public contact form (paired with
-   a secret key the Worker verifies server-side). From Cloudflare dashboard
-   → Turnstile → your widget. A widget in test mode always passes, so this
-   is safe to leave on the default test key during local development. */
-const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* Marquee */
-  const items = ["Weddings", "Portraits", "Editorial", "Cape Town", "Fine Art", "Film + Digital", "South Africa", "Elopements"];
+  const items = ["Weddings", "Portraits", "Editorial", "Graduations", "Cape Town", "Fine Art", "Film + Digital", "South Africa", "Elopements"];
   const track = document.getElementById("marquee-track");
   if (track) {
     track.innerHTML = [...items, ...items].map(item => `
@@ -29,8 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const pg = ["pg-0", "pg-1", "pg-2", "pg-3", "pg-4", "pg-5"];
   const grid = document.getElementById("home-work-grid");
   const latestWrap = document.getElementById("latest-project");
+  const selectedWorkSection = document.getElementById("selected-work");
+  const latestWorkSection = document.getElementById("latest-work");
 
   function renderProjectSections(projects) {
+    // .work-grid has fixed row-track heights (380/380/320/260px) for its
+    // asymmetric layout — with zero children that still reserves the full
+    // block height as empty space. Collapsing the whole section is simpler
+    // and more honest than trying to make a fixed-track grid size to 0.
+    if (selectedWorkSection) selectedWorkSection.classList.toggle("hidden", projects.length === 0);
+    if (latestWorkSection) latestWorkSection.classList.toggle("hidden", projects.length === 0);
+
     if (grid) {
       grid.innerHTML = projects.slice(0, 6).map((project, i) =>
         `<div class="${pg[i] || ""}" data-reveal="scale" style="transition-delay:${(i % 3) * 0.08}s">${renderProjectCard(project, "", i === 0)}</div>`

@@ -52,7 +52,7 @@ everything else requires a valid session for the one email in `ADMIN_EMAIL`.
    user's email exactly and that `SUPABASE_JWT_SECRET` is the *legacy
    HS256* secret (Project Settings → API), not a JWKS/asymmetric key.
 
-### Phase 2 — enquiries (D1 + Turnstile + email)
+### Phase 2 — enquiries (D1 + email)
 
 1. Create the database and apply the schema:
    ```bash
@@ -61,19 +61,18 @@ everything else requires a valid session for the one email in `ADMIN_EMAIL`.
    npx wrangler d1 execute timly-db --remote --file=migrations/0001_enquiries.sql
    npx wrangler d1 execute timly-db --remote --file=migrations/0002_projects.sql
    ```
-2. Create a Turnstile widget in the Cloudflare dashboard (Turnstile →
-   Add widget), pointed at your real domain. Put the **site key** in
-   `site/js/config.js` (`TURNSTILE_SITE_KEY`) and set the **secret key**:
-   ```bash
-   npx wrangler secret put TURNSTILE_SECRET_KEY
-   ```
-   Until this secret is set, `/enquiry` rejects every submission
-   (fails closed, not open — see `src/turnstile.js`).
-3. (Optional, needs a custom domain — see Phase 4) Connect a domain to
+   `/enquiry` has no CAPTCHA/spam gate right now — it was deliberately
+   dropped to keep the form simple while there's no real traffic yet. If
+   spam becomes a problem later, the `turnstile-spin` skill can wire
+   Cloudflare Turnstile back in.
+2. (Optional, needs a custom domain — see Phase 4) Connect a domain to
    Cloudflare, enable Email Routing on it, verify `NOTIFY_TO_EMAIL` as a
    destination address, then uncomment the `[[send_email]]` block in
    `wrangler.toml`. Enquiries save to D1 and appear in the Admin panel
-   regardless of whethe
+   regardless of whether this step is done — it only gates the
+   notification email.
+3. `npx wrangler deploy`.
+
 ### Phase 3 — real projects
 
 No extra setup — once Phase 2's D1 database exists, `/projects` works
@@ -107,7 +106,7 @@ for a single-photographer portfolio site this is very unlikely to be hit.
 ## Endpoints
 
 Public:
-- `POST /enquiry` — contact form submission (requires a valid Turnstile token)
+- `POST /enquiry` — contact form submission
 - `GET /projects` — the live project catalog
 
 Admin-only (`Authorization: Bearer <Supabase access token>`):
@@ -133,7 +132,6 @@ src/
   index.js           router — dispatches to the route modules below
   auth.js            Supabase JWT verification
   cors.js            origin allow-list + JSON response helper
-  turnstile.js        Cloudflare Turnstile server-side verification
   email.js           enquiry notification email (send_email binding)
   routes/
     upload.js        R2 upload/delete/list (existing admin panel flow)

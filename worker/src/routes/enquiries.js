@@ -1,13 +1,12 @@
 import { authed } from "../auth.js";
 import { json } from "../cors.js";
-import { verifyTurnstile } from "../turnstile.js";
 import { sendEnquiryNotification } from "../email.js";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALID_STATUSES = ["new", "read", "replied"];
 
 export async function handleEnquiryRoutes(request, env, url, cors) {
-  // POST /enquiry — public, Turnstile-protected, writes the contact form
+  // POST /enquiry — public, writes the contact form
   if (request.method === "POST" && url.pathname === "/enquiry") {
     let body;
     try {
@@ -16,13 +15,9 @@ export async function handleEnquiryRoutes(request, env, url, cors) {
       return json({ error: "Expected JSON body" }, 400, cors);
     }
 
-    const { name, email, message, shootDate, location, type, turnstileToken } = body || {};
+    const { name, email, message, shootDate, location, type } = body || {};
     if (!name || !email || !message) return json({ error: "name, email, and message are required" }, 400, cors);
     if (typeof email !== "string" || !EMAIL_RE.test(email)) return json({ error: "Invalid email" }, 400, cors);
-
-    const ip = request.headers.get("CF-Connecting-IP");
-    const verified = await verifyTurnstile(turnstileToken, ip, env.TURNSTILE_SECRET_KEY);
-    if (!verified) return json({ error: "Verification failed — please retry the form." }, 403, cors);
 
     if (!env.timly_db) return json({ error: "Enquiries storage is not configured yet" }, 503, cors);
 

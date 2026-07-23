@@ -55,4 +55,3 @@ NOTIFY_FROM_EMAIL = "enquiries@timlyphotography.co.za"
 
 # Secrets — never put real values in this file. Set with:
 #   wrangler secret put SUPABASE_JWT_SECRET   (Supabase → Project Settings → API → JWT Secret)
-#   wrangler secret put TURNSTILE_SECRET_KEY  (Cloudflare → Turnstile → your widget)
