@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>(function(){try{if(localStorage.getItem('timly_theme')==='light')document.documentElement.setAttribute('data-theme','light');}catch(e){}})();</script>
+<title>Contact — Timly Photography</title>
+<meta name="description" content="Get in touch with Timly Photography for weddings, portraits and editorial enquiries across South Africa." />
+<link rel="icon" href="Portfolio/logo.png">
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<div id="loader" class="loader">
+  <div class="loader__mark">
+    <div class="loader__ring"><img class="logo-img" src="Portfolio/logo.png" alt="Timly Photography" /></div>
+    <div class="loader__label">TIMLY PHOTOGRAPHY</div>
+  </div>
+  <div class="loader__count">0%</div>
+  <div class="loader__bar"><div class="loader__bar-fill"></div></div>
+</div>
+
+<nav class="nav">
+  <div class="container">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-ring"><img class="logo-img" src="Portfolio/logo.png" alt="Timly Photography" /></div>
+      <span class="nav__logo-text">TIMLY</span>
+    </a>
+    <div class="nav__right">
+      <div class="nav__links">
+        <a href="index.html" class="nav__link">HOME</a>
+        <a href="portfolio.html" class="nav__link">PORTFOLIO</a>
+        <a href="about.html" class="nav__link">ABOUT</a>
+        <a href="contact.html" class="nav__link active">CONTACT</a>
+      </div>
+      <button class="theme-toggle" aria-label="Toggle light/dark theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/><line x1="4" y1="12" x2="2" y2="12"/><line x1="22" y1="12" x2="20" y2="12"/><line x1="5.6" y1="5.6" x2="4.2" y2="4.2"/><line x1="19.8" y1="19.8" x2="18.4" y2="18.4"/><line x1="5.6" y1="18.4" x2="4.2" y2="19.8"/><line x1="19.8" y1="4.2" x2="18.4" y2="5.6"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <button class="nav__toggle" aria-label="Menu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="nav-mobile">
+  <a href="index.html" class="nav-mobile__link">HOME</a>
+  <a href="portfolio.html" class="nav-mobile__link">PORTFOLIO</a>
+  <a href="about.html" class="nav-mobile__link">ABOUT</a>
+  <a href="contact.html" class="nav-mobile__link">CONTACT</a>
+  <a href="admin.html" class="nav-mobile__admin">ADMIN</a>
+</div>
+
+<section class="contact-section">
+  <div class="container">
+    <div class="eyebrow">Enquiries</div>
+    <h1 class="contact-title">Let's talk about<br /><span class="gold-text italic">your story</span></h1>
+
+    <div class="contact-grid">
+      <div data-reveal>
+        <div id="contact-form-wrap">
+          <form id="enquiry-form">
+            <div class="field-row">
+              <div class="field">
+                <label for="f-name">NAME</label>
+                <input id="f-name" name="name" type="text" required />
+              </div>
+              <div class="field">
+                <label for="f-email">EMAIL</label>
+                <input id="f-email" name="email" type="email" required />
+              </div>
+              <div class="field">
+                <label for="f-date">EVENT DATE</label>
+                <input id="f-date" name="date" type="date" />
+              </div>
+              <div class="field">
+                <label for="f-location">LOCATION</label>
+                <input id="f-location" name="location" type="text" />
+              </div>
+            </div>
+            <div class="field field-full">
+              <label for="f-type">TYPE OF SHOOT</label>
+              <select id="f-type" name="type">
+                <option value="">Select...</option>
+                <option>Wedding</option>
+                <option>Portrait</option>
+                <option>Editorial</option>
+                <option>Elopement</option>
+                <option>Fashion</option>
+                <option>Film</option>
+              </select>
+            </div>
+            <div class="field field-full">
+              <label for="f-message">MESSAGE</label>
+              <textarea id="f-message" name="message" rows="5" required></textarea>
+            </div>
+            <div class="cf-turnstile field-full" data-sitekey="" id="turnstile-widget" style="margin-bottom:16px"></div>
+            <p id="contact-error" class="admin-form__error hidden"></p>
+            <button type="submit" class="btn btn-gold" id="enquiry-submit">SEND ENQUIRY</button>
+          </form>
+          <div id="contact-success" class="contact-success hidden">
+            <div class="contact-success__ring">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#C9A020" stroke-width="1.5"><polyline points="20 6 9 17 4 12" /></svg>
+            </div>
+            <h3>Enquiry received</h3>
+            <p>Thank you for reaching out. We'll be in touch within 48 hours.</p>
+          </div>
+        </div>
+      </div>
+
+      <div data-reveal style="transition-delay:0.15s">
+        <div class="contact-info-block">
+          <div class="loc">Johannesburg, South Africa</div>
+          <a class="email" href="mailto:hello@timlyphotography.co.za">hello@timlyphotography.co.za</a>
+          <div class="response">Response within 48 hours</div>
+        </div>
+        <div class="gold-line" style="width:64px"></div>
+        <div class="contact-wa-box">
+          <div class="label">Quick question?</div>
+          <div class="headline">Chat directly on WhatsApp</div>
+          <a href="https://wa.me/27715061785?text=Hi%20Timly!%20I'd%20love%20to%20enquire%20about%20your%20photography%20services." class="btn btn-whatsapp">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.5.8 3.1 1.3 4.8 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            +27 71 506 1785
+          </a>
+        </div>
+        <div>
+          <div class="eyebrow" style="margin-bottom:24px">Frequently Asked</div>
+          <div id="faq-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ───────────────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="gold-line"></div>
+  <div class="container footer__inner">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">
+          <div class="footer__ring"><img class="logo-img" src="Portfolio/logo.png" alt="Timly Photography" /></div>
+          <span class="footer__brand-text">TIMLY</span>
+        </div>
+        <p class="footer__tagline">Fine Art Photography<br />South Africa</p>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:20px">Navigate</div>
+        <nav class="footer__nav">
+          <a href="index.html">Home</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="admin.html">Admin</a>
+        </nav>
+      </div>
+      <div>
+        <div class="eyebrow" style="margin-bottom:20px">Get In Touch</div>
+        <div class="footer__contact">
+          <a href="mailto:hello@timlyphotography.co.za">hello@timlyphotography.co.za</a>
+          <a href="https://wa.me/27715061785">+27 71 506 1785</a>
+        </div>
+        <div class="footer__socials">
+          <a href="#" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://wa.me/27715061785" aria-label="WhatsApp"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.5.8 3.1 1.3 4.8 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+        </div>
+      </div>
+    </div>
+    <div class="gold-line"></div>
+    <div class="footer__bottom">
+      <p>© 2025 Timly Photography · All Rights Reserved</p>
+      <p>Made with love in South Africa</p>
+    </div>
+  </div>
+</footer>
+
+<a href="https://wa.me/27715061785" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 5L2 22l5.2-1.3c1.5.8 3.1 1.3 4.8 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+</a>
+
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+<script src="js/config.js"></script>
+<script src="js/cdn.js"></script>
+<script src="js/imageCache.js"></script>
+<script src="js/imageLoader.js"></script>
+<script src="js/portfolio-image.js"></script>
+<script src="js/data.js"></script>
+<script src="js/usePortfolioImages.js"></script>
+<script src="js/main.js"></script>
+<script src="js/contact.js"></script>
+</body>
+</html>

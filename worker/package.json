@@ -1,0 +1,16 @@
+{
+  "name": "timly-r2-upload",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.112.0"
+  },
+  "dependencies": {
+    "jose": "^5.9.6",
+    "mimetext": "^3.0.24"
+  }
+}

@@ -1,0 +1,58 @@
+name = "timly-r2-upload"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+# mimetext (used to build enquiry notification emails, see src/email.js)
+# pulls in Node built-ins (node:os, path via mime-types) at import time —
+# this polyfills them. Required for the Worker to build at all, not just
+# for the email path to work.
+compatibility_flags = ["nodejs_compat"]
+
+# Binds this Worker directly to the R2 bucket using Cloudflare's native
+# binding — no S3 access keys are ever generated or stored anywhere.
+[[r2_buckets]]
+binding = "PORTFOLIO_BUCKET"
+bucket_name = "portfolio"
+
+# D1 database backing /enquiry, /enquiries, and /projects. Create it with
+# `wrangler d1 create timly-db`, paste the printed database_id below, then
+# apply the schema with `wrangler d1 execute timly-db --remote --file=migrations/0001_enquiries.sql`
+# (and 0002_projects.sql). Until this block is uncommented and filled in,
+# those routes respond 503 rather than crash the Worker.
+[[d1_databases]]
+binding = "timly_db"
+database_name = "timly-db"
+database_id = "36855296-3cc3-4c0a-9820-390017e818b5"
+
+# Cloudflare Email Routing binding used to notify on new enquiries. Requires
+# a custom domain connected to this Cloudflare account with Email Routing
+# enabled and NOTIFY_TO_EMAIL verified as a destination address. Until this
+# is uncommented, enquiries still save to D1 — they just don't email anyone.
+# [[send_email]]
+# name = "ENQUIRY_EMAIL"
+# destination_address = "timlyphotography2313@gmail.com"
+
+[vars]
+# Public read base for objects in the R2 bucket. Used only to build the
+# URL returned after upload.
+PUBLIC_BASE_URL = "https://pub-7f3f3cc2474a47dc972d50c172ecd83b.r2.dev"
+
+# Comma-separated exact origins allowed to call this Worker. Add your real
+# domain once it exists; keep both localhost dev-server origins below.
+ALLOWED_ORIGINS = "http://localhost:8080,http://127.0.0.1:5500,http://localhost:5500"
+
+# Supabase project's user-facing base URL — informational only, not used
+# for verification (that happens via SUPABASE_JWT_SECRET below).
+SUPABASE_URL = "https://zoooiopclnbbuxesqwnq.supabase.co"
+
+# The one email address allowed to act as admin. Must match the email of
+# the single user you create in Supabase Auth (see worker/README.md).
+ADMIN_EMAIL = "timlyphotography2313@gmail.com"
+
+# Sender/recipient for enquiry notification emails (both must be addresses
+# on the domain you connect to Cloudflare, per Email Routing's rules).
+NOTIFY_TO_EMAIL = "timlyphotography2313@gmail.com"
+NOTIFY_FROM_EMAIL = "enquiries@timlyphotography.co.za"
+
+# Secrets — never put real values in this file. Set with:
+#   wrangler secret put SUPABASE_JWT_SECRET   (Supabase → Project Settings → API → JWT Secret)
+#   wrangler secret put TURNSTILE_SECRET_KEY  (Cloudflare → Turnstile → your widget)
