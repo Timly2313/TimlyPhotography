@@ -30,7 +30,12 @@ const SIZE_WIDTHS = {
 };
 
 function isCdnUrl(url) {
-  return url.startsWith(R2_PUBLIC_BASE_URL) || (typeof CDN_CUSTOM_DOMAIN !== "undefined" && CDN_CUSTOM_DOMAIN && url.startsWith(CDN_CUSTOM_DOMAIN));
+  // Only a real Cloudflare-proxied custom domain supports /cdn-cgi/image/
+  // transforms — the raw r2.dev subdomain never does, even though images
+  // served from it start with R2_PUBLIC_BASE_URL and load fine as-is.
+  // Matching that base here too was the bug: it built resize URLs against
+  // an origin that 404s on every transform request.
+  return typeof CDN_CUSTOM_DOMAIN !== "undefined" && !!CDN_CUSTOM_DOMAIN && url.startsWith(CDN_CUSTOM_DOMAIN);
 }
 
 /**
