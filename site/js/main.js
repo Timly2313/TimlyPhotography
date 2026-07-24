@@ -141,6 +141,34 @@ function renderProjectCard(project, extraClass, priority) {
     </div>`;
 }
 
+/* ─── IMAGE DOWNLOAD ────────────────────────────────────────────────────── */
+/* A plain <a download href="..."> only forces a save for same-origin URLs;
+   for a cross-origin R2/CDN URL the browser just navigates to it instead.
+   Fetching the bytes and downloading the resulting blob works regardless
+   of origin, since the object URL handed to the anchor is same-origin
+   (blob:) either way. */
+
+async function downloadImage(url) {
+  const filename = url.split("/").pop().split("?")[0] || "image.jpg";
+  try {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Download failed (${res.status})`);
+    const blob = await res.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = blobUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(blobUrl);
+  } catch (e) {
+    // Fetch/CORS failure — still let the visitor get the image by opening
+    // it directly (they can save-as from there) rather than doing nothing.
+    window.open(url, "_blank", "noopener");
+  }
+}
+
 /* ─── PROJECT MODAL + LIGHTBOX ──────────────────────────────────────────── */
 
 const ProjectModal = {
@@ -164,6 +192,8 @@ const ProjectModal = {
       if (e.target.closest("[data-close-lightbox]")) this.closeLightbox();
       if (e.target.closest("[data-lightbox-prev]")) this.stepLightbox(-1);
       if (e.target.closest("[data-lightbox-next]")) this.stepLightbox(1);
+      const downloadBtn = e.target.closest("[data-lightbox-download]");
+      if (downloadBtn) this.downloadCurrentImage(downloadBtn);
     });
 
     this.lightbox.addEventListener("click", e => {
@@ -295,6 +325,17 @@ const ProjectModal = {
     this.lightbox.querySelector(".lightbox__count").textContent = `${this.currentIdx + 1} / ${this.currentImages.length}`;
     this.lightbox.querySelector("[data-lightbox-prev]").hidden = this.currentIdx === 0;
     this.lightbox.querySelector("[data-lightbox-next]").hidden = this.currentIdx === this.currentImages.length - 1;
+  },
+
+  async downloadCurrentImage(btn) {
+    const url = this.currentImages[this.currentIdx];
+    if (!url) return;
+    btn.classList.add("downloading");
+    try {
+      await downloadImage(url);
+    } finally {
+      btn.classList.remove("downloading");
+    }
   },
 };
 

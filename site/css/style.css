@@ -755,7 +755,8 @@ ul { list-style: none; margin: 0; padding: 0; }
   background: rgba(0,0,0,0.97);
 }
 .lightbox.open { display: flex; }
-.lightbox__close { position: absolute; top: 24px; right: 24px; }
+.lightbox__actions { position: absolute; top: 24px; right: 24px; display: flex; gap: 8px; }
+.lightbox__download.downloading { opacity: 0.5; pointer-events: none; }
 .lightbox__count { position: absolute; top: 24px; left: 50%; transform: translateX(-50%); font-family: var(--font-body); font-weight: 300; font-size: 11px; letter-spacing: 0.3em; color: var(--text-muted); }
 .lightbox img { max-width: 88vw; max-height: 84vh; object-fit: contain; }
 .lightbox__prev, .lightbox__next { position: absolute; top: 50%; transform: translateY(-50%); }
