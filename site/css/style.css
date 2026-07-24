@@ -896,6 +896,46 @@ ul { list-style: none; margin: 0; padding: 0; }
 .settings-field input { width: 100%; background: transparent; border: none; border-bottom: 1px solid rgba(201,160,32,0.18); color: var(--text-primary); font-family: var(--font-body); font-weight: 300; font-size: 13px; padding: 8px 0; outline: none; }
 .admin-save-btn { margin-top: 40px; padding: 13px 32px; background: var(--gold-gradient); color: var(--black-deep); font-family: var(--font-body); font-weight: 400; font-size: 11px; letter-spacing: 0.15em; border: none; cursor: pointer; }
 
+/* ─── ADMIN MOBILE ───────────────────────────────────────────────────────
+   The desktop layout is a fixed 208px sidebar + flex main — below 768px
+   that gets replaced with a stacked layout: a horizontal, wrapping nav
+   bar on top, full-width panels below. Also fixes two hover-only affordances
+   (project-row delete, upload-preview remove) that are simply unreachable
+   on touch devices — see the (hover: none) block at the bottom. */
+@media (max-width: 767px) {
+  .admin-shell { flex-direction: column; min-height: auto; }
+  .admin-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(201,160,32,0.08); }
+  .admin-sidebar__nav { flex-direction: row; flex-wrap: wrap; padding: 8px; gap: 4px; }
+  .admin-nav-item { flex: 1 1 45%; justify-content: center; border-left: none; border-bottom: 2px solid transparent; padding: 10px 8px; font-size: 10px; }
+  .admin-nav-item.active { border-left-color: transparent; border-bottom-color: var(--gold-mid); }
+  .admin-sidebar__footer { display: flex; flex-direction: row; }
+  .admin-sidebar__footer a, .admin-sidebar__footer button { width: auto; flex: 1; justify-content: center; }
+  .admin-main { width: 100%; }
+
+  .admin-panel { padding: 24px 16px; }
+  .admin-panel h2 { font-size: 26px; }
+  .admin-panel__header { flex-wrap: wrap; gap: 16px; }
+
+  .admin-project-row, .admin-list-item { flex-wrap: wrap; }
+  .admin-project-row > div:nth-child(2), .admin-list-item > div:nth-child(2) { min-width: 0; flex: 1; }
+  .admin-project-row__actions { opacity: 1; margin-left: 0; }
+
+  .admin-form__actions { flex-wrap: wrap; }
+
+  .enquiry-card { padding: 16px; }
+  .enquiry-card__top { flex-wrap: wrap; gap: 8px; }
+  .enquiry-card__meta { grid-template-columns: 1fr; gap: 10px; }
+}
+
+/* Hover-only reveal-on-hover controls are unreachable on touch — always
+   show them once there's no hover capability to reveal them with. */
+@media (hover: none), (pointer: coarse) {
+  .admin-project-row__actions,
+  .upload-zone__remove {
+    opacity: 1;
+  }
+}
+
 /* ─── SCROLL REVEAL (IntersectionObserver-driven, see js/main.js) ──────── */
 
 [data-reveal] {
